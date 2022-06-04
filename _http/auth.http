@@ -1,0 +1,154 @@
+@host = http://127.0.0.1:8000/api/
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiN2QwMDdhN2I0MGUwZjEwYTlkYzZlNGRjZmY4ZmMyNGRjZjBiZjk1ZGMxN2MwNjNmM2U2YzQyODkxNzMzMTE0ZTI5M2MxNTBjZWFmNWQ5OWEiLCJpYXQiOjE2NTQxNjA4NjUuNzAwNjQ2LCJuYmYiOjE2NTQxNjA4NjUuNzAwNjYxLCJleHAiOjE2ODU2OTY4NjUuNjk3ODI0LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.CY7GNGOI-rFx74oSdY-4x93P8g4lWL7jgXjIjjBDOBvs1Iiejs26rXWTJEV34wUeHuV9t9xA1I8EWC0RbHHigs7eF_QYp7acYwvKJ2X5uis9DYIROFQtnC5CgAg_lDCwUoTZ1E_dQ_jKhNhh8q0uZAVIp9hhuXV72y4FpLmtuSrE0aJy4uOXl_XbGR2RnZXK4pevEjX_eI0k8V2qn65ZLTTeyvwrwg_vWqkFszrnWcG5l_Jj_ZGMY7YpmvCwJCrTOXMbYVfgQk5rbTOZhwG43wOON9t7PaQ2WUuq9ZKsYSq34OtmqzXUxnBnjKiurC6NQEM-6AZmeZWXK_-L0KjErw6E3tTxnx1WEKMKJQkRRElxD4-MxmJ7W9tbFwLbGJFIYownGgygmQ7GptMKCxqfTwOXFnr-1AdHeAaEsR_JDF8OEqojireoeTrxo7SI4D5jHKnDsFFGElWeFCUeeRES-5VNLa8VKEtbE3r-9HHz_wv0HSXrQtKkB7A5jQREY6JFTNqUwm9OnQqSfJkyd8fyqEm-NtWtmsgF8jIAy7XFpI-DVfBdmgs3rhyVY0LrHuFXlJmzxWZmMh211cFx1vkH_9LJtlV3WGKE691SD3vYJtkmgXgsrgukTSiLSz1pPKVNjB5PZ7h99OmhkhNjpvYNlLnZn9m0GKNDjEEsbGLha4I
+
+### ==============================
+###           Auth
+### ==============================
+### Login
+POST {{host}}login HTTP/1.1
+content-type: application/json
+app-role: customer
+
+{
+    "email": "test5@mail.com",
+    "password": "password"
+}
+
+### Get Auth User
+GET {{host}}/auth/user HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+### Registration
+POST {{ host }}/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Customer 3",
+    "email": "c3@g.com",
+    "password": "password",
+    "password_confirmation": "password",
+    "role": "customer",
+    "refer_code": "nA1lyx"
+}
+
+### resend OTP
+POST {{ host }}/auth/resend-otp HTTP/1.1
+content-type: application/json
+app-role: shop
+
+{
+    "email": "g@g.com",
+    "forget": true
+}
+
+### verify OTP
+POST {{ host }}/auth/verify HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "otp": 1155
+}
+
+### Forget Password OTP
+POST {{host}}/auth/forget-password HTTP/1.1
+content-type: application/json
+app-role: customer
+
+{
+    "email": "jonny@g.com",
+    "forget": true
+}
+
+### Forget password OTP verify
+POST {{ host }}/auth/forget-password-otp-verify HTTP/1.1
+content-type: application/json
+
+{
+    "email": "jonny@g.com",
+    "otp": 8942,
+    "forget": true
+}
+
+### reset password
+POST {{ host }}/auth/reset-password HTTP/1.1
+content-type: application/json
+
+{
+    "token": 14698417,
+    "email": "jonny@g.com",
+    "password": "password",
+    "password_confirmation": "password"
+}
+
+### Logout
+POST {{host}}/auth/logout HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+accept: application/json
+
+
+
+### ==============================
+###            Profile
+### ==============================
+### Update Password
+POST {{host}}/auth/profile/update HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+app-role: shop
+
+{
+    "name": "Ezio Alditore",
+    "email": "ezio@g.com",
+    "password": "password"
+}
+
+
+### Change Password
+POST {{host}}/auth/profile/change-password HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+app-role: shop
+
+{
+    "old_password": "password",
+    "password": "password",
+    "password_confirmation": "password"
+}
+
+
+### Toggle Settings
+POST {{host}}/auth/profile/toggle-settings HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+app-role: shop
+
+{
+    # "type": "push_notification"
+    "type": "email_notification"
+}
+
+### Change Language
+POST {{host}}/auth/profile/change-language HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+app-role: shop
+
+{
+    "code": "en"
+}
+
+
+### Change Password
+POST {{host}}/auth/profile/delete HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+app-role: shop
+
+
+### Get Refer Url
+GET {{host}}/auth/profile/get-refer-code HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}} 
